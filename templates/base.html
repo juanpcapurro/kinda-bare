@@ -26,23 +26,36 @@
   {% endblock headers %}
   </head>
   <body>
-    <div class="page">
-      <header class="page-head">
-      
-        <h1>
-          <a href="{{ SITEURL }}/index.html">{{ SITENAME }}</a>
-        </h1>
-      </header>
+    <div class="wrapper">
 
+      <div class="header-wrapper">
+        <div class="main-header">
+          <div class="site-title">{{ SITE_TITLE }}</div>
+          <div  class="navigation-section">
+            <ul>
+              {% if SOCIAL %}
+                {% for name, url in SOCIAL %}
+                  <li><a href="{{ SITEURL }}/{{ url|e }}">{{ name }}</a></li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
       <div class="page-content">
         {% block content %}
         {% endblock content %}
       </div>
 
-      {% include "sidebar.html" %} 
+      <!-- TODO: add the sidebar widgets somewhere else -->
 
-      <footer class="page-footer">
-        <p> {{ FOOTER_TEXT or 'Porté par <a href="http://pelican.readthedocs.org">Pelican</a> et <a href="http://www.openbsd.org/">OpenBSD</a>' }}</p>
+      <footer >
+        {% if SOCIAL %}
+        |
+        {% for url, name in SOCIAL %}
+        <span><a href="{{ url|e }}">{{ name }}</a></span>|
+        {% endfor %}
+        {% endif %}
       </footer>
     </div>
   </body>
